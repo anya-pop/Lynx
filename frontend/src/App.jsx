@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -21,16 +21,25 @@ import lynxIcon from "./assets/lynx.png";
 import lynxImage from "./assets/lynx-image.png";
 import netImage from "./assets/net.png";
 import starDoodle from "./assets/star-doodle.png";
-
+import inputbg from "./assets/inputbg.jpg";
+import axios from 'axios';
 import image29 from "./assets/29.png"; // Top left image
 import metalAsset from "./assets/metal-asset.png"; // Bottom right image
 
 const App = () => {
+  const [results, setResults] = useState([]);
+  const [topWebsites, setTopWebsites] = useState([]);
+  const [breaches, setBreaches] = useState(null);
+  const [error, setError] = useState(null);
+  const [account, setAccount] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
   });
+
+  const [backendResponse, setBackendResponse] = useState(null);
   const [data, setData] = useState({
     positive: 65,
     neutral: 25,
@@ -54,6 +63,75 @@ const App = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const query = formData.name;
+        const response = await axios.get(`http://localhost:8000/?q=${query}`);
+
+        setResults(response.data);
+        console.log("Response from backend:", response.data);
+        setBackendResponse(response.data);
+
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Response status:", error.response.status);
+            console.error("Response headers:", error.response.headers);
+        } else if (error.request) {
+            console.error("Request:", error.request);
+        } else {
+            console.error("Error message:", error.message);
+        }
+        setBackendResponse({error: error.message}); // Update state with error message
+    }
+};
+const handleCheckAccount = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8000/breached_account/${account}`);
+    setBreaches(response.data);
+    setError(null);
+  } catch (err) {
+    console.error('Error checking account:', err);
+    if (err.response && err.response.status === 404) {
+      setError("Account not found.");
+    } else {
+      setError('Error checking account.');
+    }
+    setBreaches(null);
+  }
+};
+
+useEffect(() => {
+  if (results.length > 0) {
+    const websiteCounts = {}; // Object to store website counts
+
+    results.forEach(result => {
+      if (result.href) { // Check if href exists (it might be null or undefined)
+        try {
+          const url = new URL(result.href); // Use URL constructor to parse URL
+          const hostname = url.hostname; // Extract hostname
+
+          if (hostname) { // Check if hostname exists (it might be null or empty)
+            websiteCounts[hostname] = (websiteCounts[hostname] || 0) + 1; // Increment count
+          }
+        } catch (error) {
+          console.error("Error parsing URL:", error);
+        }
+      }
+    });
+
+    // Sort websites by count (descending) and get top 5
+    const sortedWebsites = Object.entries(websiteCounts)
+      .sort(([, countA], [, countB]) => countB - countA)
+      .slice(0, 5);
+
+    setTopWebsites(sortedWebsites); // Update the state
+  }
+}, [results]);
 
   const [dataBreaches, setDataBreaches] = useState("...");
 
@@ -80,6 +158,7 @@ const App = () => {
       {/* Section 2: Input Page (New Scroll Section) */}
       <div className="scroll-section input-page">
         <div className="quote-section">
+        {/* <img src={inputbg} alt="Lynx Icon" className="inputbg" /> */}
           <p>
             “See what the internet knows about you, before someone else does.”
             <br />
@@ -87,11 +166,10 @@ const App = () => {
           </p>
         </div>
 
-
         <div className="divider"></div>
         <div className="input-section">
           <h2>Look for...</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} />
             <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
             <input type="text" name="username" placeholder="Usernames" value={formData.username} onChange={handleChange} />
@@ -114,20 +192,30 @@ const App = () => {
       </div>
 
       {/* Section 3: "Some of your finds..." */}
-  <div className="scroll-section finds-section">
-  <h2 className="finds-title">Some of your finds...</h2>
+      <div className="scroll-section finds-section">
+        <h2 className="finds-title">Some of your finds...</h2>
 
-{/* Three Stacked Grey Boxes */}
-<div className="grey-boxes">
-  <div className="grey-box">Random Stuff 1</div>
-  <div className="grey-box">Random Stuff 2</div>
-  <div className="grey-box">Random Stuff 3</div>
+        {/* Three Stacked Grey Boxes (Dynamically Generated) */}
+        <div className="grey-boxes-container"> {/* New container div */}
+        <div className="grey-boxes">
+        {results.map((item, index) => (
+        <a
+            key={index}
+            href={item.href} // Use item.href for the link
+            target="_blank" // To open in a new tab (optional, but recommended)
+            rel="noopener noreferrer" // Security best practice
+            className="grey-box"
+        >
+            {item.title}
+        </a>
+    ))}
 </div>
+        </div>
 
-{/* Top Left & Bottom Right Images */}
-<img src={image29} alt="Asset 29" className="finds-image top-left" />
-<img src={metalAsset} alt="Metal Asset" className="finds-image bottom-right" />
-</div>
+        {/* Top Left & Bottom Right Images */}
+        <img src={image29} alt="Asset 29" className="finds-image top-left" />
+        <img src={metalAsset} alt="Metal Asset" className="finds-image bottom-right" />
+      </div>
 {/* NEW Section: Breaking It Down */}
 <div className="scroll-section breakdown-section">
   {/* Background Decorations */}
@@ -149,12 +237,26 @@ const App = () => {
     </div>
   </div>
 </div>
-
+    
 {/* NEW Section: Data Breaches */}
 <div className="scroll-section data-breach-section">
-  <h2>Data Breaches... Uh oh...</h2>
-  <p>Your data has been breached <strong>{dataBreaches}</strong> time(s)</p>
+{breaches && breaches.length > 0 ? (
+        <div>
+          <p>Your data has been breached <strong>{breaches.length}</strong> time(s)</p>
+          <h3>Breaches Found:</h3>
+          <ul>
+            {breaches.map((breach, index) => (
+              <li key={index}>
+                <strong>{breach.Title}</strong>: {breach.Description}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : breaches && breaches.length === 0 ? (
+        <p>No breaches found for this account.</p>
+      ) : null}
 </div>
+
 
 {/* NEW Section: Based on Our Analysis */}
 <div className="scroll-section analysis-section">
@@ -167,6 +269,18 @@ const App = () => {
       <h4>🚨 High Priority</h4>
       <p>{highPriorityText}</p>
     </div>
+    {topWebsites.length > 0 && ( // Conditionally render if there are websites
+          <div>
+            <h3>Top Websites:</h3>
+            <ul>
+              {topWebsites.map(([website, count], index) => (
+                <li key={index}>
+                  {website} ({count})
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
     <div className="medium-priority">
       <h4>⚠️ Medium Priority</h4>
@@ -182,7 +296,7 @@ const App = () => {
 
 
       {/* Section 4: Backend Data Placeholder */}
-      <div className="scroll-section" style={{ backgroundColor: "#333" }}></div>
+      
     </div>
 
 

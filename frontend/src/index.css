@@ -1,9 +1,14 @@
 /* Section Scrolling */
+@font-face {
+  font-family: Poppins;
+  src: url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+}
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: Poppins, sans-serif;
   scroll-behavior: smooth;
+  background-color: black;
 }
 
 .scroll-section {
@@ -52,7 +57,7 @@ html, body {
 .metallic {
   position: absolute;
   top: 0%;
-  left: 5%;
+  left: 0%;
   width: 500px;
 }
 
@@ -93,7 +98,7 @@ html, body {
 .input-page {
   display: flex;
   height: 100vh;
-  background-color: #555; /* Grey background */
+  background-color: black; /* Grey background */
   color: white;
   justify-content: center;
   align-items: center;
@@ -108,6 +113,9 @@ html, body {
   max-width: 40%;
   text-align: left;
 }
+.quote-section p {
+  z-index: 10;
+}
 
 /* Vertical Line */
 .divider {
@@ -120,12 +128,13 @@ html, body {
 /* Right Side: Input Form */
 .input-section {
   flex: 1;
-  background: #111;
+  background: rgba(255, 255, 255, 0.095);
   padding: 2rem;
   border-radius: 15px;
   border: 1px solid #888;
   max-width: 400px;
   text-align: center;
+  box-shadow: 0 0 10px 0 rgb(255, 255, 255);
 }
 
 /* Input Fields */
@@ -141,6 +150,17 @@ html, body {
   outline: none;
 }
 
+/* .inputbg img {
+  position: absolute;
+  left: 0;
+  border-radius: 15px;
+  z-index: -1;
+  max-width: max-content;
+  max-height: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+} */
+
 /* Input Helper Text */
 .input-helper {
   font-size: 0.8rem;
@@ -151,18 +171,20 @@ html, body {
 
 /* Button */
 .view-data-btn {
-  background: #007bff;
+  background: rgba(255, 255, 255, 0.173);
   color: white;
   border: none;
   padding: 12px;
+  margin: 3rem 0;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   width: 100%;
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .view-data-btn:hover {
-  background: #0056b3;
+  box-shadow: 0 0 10px 0 rgb(255, 255, 255);
 }
 
 /* Lynx Logo Under Input */
@@ -187,12 +209,23 @@ html, body {
   text-align: center;
   margin-bottom: 40px;
 }
+
+.grey-boxes-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; 
+  max-height: 300px;
+}
 .grey-boxes {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  margin-top: 20px;  /* Pushes boxes below the title */
+  margin-top: 20px; 
+  overflow-y: auto; 
+  max-height: 300px;
 }
 
 .grey-box {
@@ -200,19 +233,22 @@ html, body {
   color: #3C3B3B;
   font-family: "Poppins", sans-serif;
   font-size: 24px;
-  padding: 20px 40px;
-  width: 400px;
-  height: 80px; /* Ensures visibility */
+  padding: 10px 40px;
+  width: 700px;
+  min-height: 80px; /* Ensures visibility */
   text-align: center;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .finds-image {
   position: absolute;
-  width: 200px; /* Adjust size as needed */
+  width: 400px;
 }
 
 .top-left {
@@ -221,7 +257,7 @@ html, body {
 }
 
 .bottom-right {
-  bottom: 0px;
+  bottom: -50px;
   right: 10px;
 }
 
