@@ -1,4 +1,4 @@
-/* Global Scroll Styles */
+/* Section Scrolling */
 html, body {
   margin: 0;
   padding: 0;
@@ -6,7 +6,6 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* Section Scrolling */
 .scroll-section {
   height: 100vh;
   width: 100vw;
@@ -65,6 +64,7 @@ html, body {
   font-weight: bold;
   z-index: 10;
 }
+
 /* Lynx Icon */
 .lynx-icon {
   transform: scale(1);
@@ -73,8 +73,6 @@ html, body {
   bottom: 5%;
   width: 200px;
 }
-
-
 
 .get-started-btn {
   background: rgba(255, 255, 255, 0.1);
@@ -89,4 +87,86 @@ html, body {
 
 .get-started-btn:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* Input Page Section */
+.input-page {
+  display: flex;
+  height: 100vh;
+  background-color: #555; /* Grey background */
+  color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 5vw;
+}
+
+/* Left Side: Quote */
+.quote-section {
+  flex: 1;
+  font-size: 1.8rem;
+  font-weight: bold;
+  max-width: 40%;
+  text-align: left;
+}
+
+/* Vertical Line */
+.divider {
+  width: 2px;
+  height: 70%;
+  background-color: #888;
+  margin: 0 3vw;
+}
+
+/* Right Side: Input Form */
+.input-section {
+  flex: 1;
+  background: #111;
+  padding: 2rem;
+  border-radius: 15px;
+  border: 1px solid #888;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Input Fields */
+.input-section input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #777;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* Input Helper Text */
+.input-helper {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: -8px;
+  margin-bottom: 10px;
+}
+
+/* Button */
+.view-data-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.view-data-btn:hover {
+  background: #0056b3;
+}
+
+/* Lynx Logo Under Input */
+.lynx-input-logo {
+  width: 150px;
+  margin-top: 20px;
 }
