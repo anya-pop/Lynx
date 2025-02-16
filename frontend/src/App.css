@@ -40,3 +40,60 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Analysis Section */
+.analysis-section {
+  height: 100vh;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Headers */
+.analysis-section h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.analysis-section h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Recommendations */
+.recommendations {
+  width: 60%;
+  text-align: left;
+}
+
+.high-priority h4 {
+  color: red;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+.medium-priority h4 {
+  color: orange;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+/* Back to Home Button */
+.home-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.home-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}

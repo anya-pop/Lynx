@@ -1,4 +1,18 @@
 import { useState } from "react";
+import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+
+import springy from "./assets/springy.png";
+import glassBackground from "./assets/glass-background.png";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 import lynx1 from "./assets/lynx1.png";
 import lynx2 from "./assets/lynx2.png";
 import lynx3 from "./assets/lynx3.png";
@@ -8,18 +22,42 @@ import lynxImage from "./assets/lynx-image.png";
 import netImage from "./assets/net.png";
 import starDoodle from "./assets/star-doodle.png";
 
+
 const App = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
   });
-
+  const [data, setData] = useState({
+    positive: 65,
+    neutral: 25,
+    negative: 10,
+  });
+  
+  const pieData = {
+    labels: ["Positive Mentions", "Neutral Mentions", "Negative Mentions"],
+    datasets: [
+      {
+        data: [data.positive, data.neutral, data.negative],
+        backgroundColor: ["#c4c4c4", "#777", "#222"],
+        borderColor: "#fff",
+        borderWidth: 2,
+      },
+    ],
+  };
+  
   const [lynxCount, setLynxCount] = useState("..."); // Placeholder for backend data
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const [dataBreaches, setDataBreaches] = useState("...");
+
+  const [highPriorityText, setHighPriorityText] = useState("Loading high priority recommendations...");
+  const [mediumPriorityText, setMediumPriorityText] = useState("Loading medium priority recommendations...");
+
 
   return (
     <div style={{ width: "100vw", minHeight: "100vh", overflowX: "hidden" }}>
@@ -76,9 +114,65 @@ const App = () => {
       {/* Section 3: Empty Scroll */}
       <div className="scroll-section" style={{ backgroundColor: "#444" }}></div>
 
+{/* NEW Section: Breaking It Down */}
+<div className="scroll-section breakdown-section">
+  {/* Background Decorations */}
+  <img src={springy} alt="Springy Background" className="spring-bg" />
+
+  {/* Pie Chart on the Left */}
+  <div className="pie-chart-container">
+    <Pie data={pieData} />
+  </div>
+
+  {/* Text Breakdown on the Right */}
+  <div className="breakdown-box">
+    <img src={glassBackground} alt="Glass Background" className="glass-bg" />
+    <div className="breakdown-text">
+      <h2>Breaking it down...</h2>
+      <p><strong>{data.positive}% Positive Mentions</strong><br />Professional highlights, social engagement, good reviews</p>
+      <p><strong>{data.neutral}% Neutral Mentions</strong><br />Basic profile links, general discussions</p>
+      <p><strong>{data.negative}% Negative Mentions</strong><br />Bad reviews, leaked data, questionable content</p>
+    </div>
+  </div>
+</div>
+
+{/* NEW Section: Data Breaches */}
+<div className="scroll-section data-breach-section">
+  <h2>Data Breaches... Uh oh...</h2>
+  <p>Your data has been breached <strong>{dataBreaches}</strong> time(s)</p>
+</div>
+
+{/* NEW Section: Based on Our Analysis */}
+<div className="scroll-section analysis-section">
+  <h2>Based on our Analysis,</h2>
+  <h3>We recommend...</h3>
+
+  {/* Priority Recommendations */}
+  <div className="recommendations">
+    <div className="high-priority">
+      <h4>🚨 High Priority</h4>
+      <p>{highPriorityText}</p>
+    </div>
+
+    <div className="medium-priority">
+      <h4>⚠️ Medium Priority</h4>
+      <p>{mediumPriorityText}</p>
+    </div>
+  </div>
+
+  {/* Back to Home Button */}
+  <button className="home-btn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+    Go Back Home
+  </button>
+</div>
+
+
+
       {/* Section 4: Backend Data Placeholder */}
       <div className="scroll-section" style={{ backgroundColor: "#333" }}></div>
     </div>
+
+
   );
 };
 
