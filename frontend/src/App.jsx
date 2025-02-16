@@ -22,6 +22,8 @@ import lynxImage from "./assets/lynx-image.png";
 import netImage from "./assets/net.png";
 import starDoodle from "./assets/star-doodle.png";
 
+import image29 from "./assets/29.png"; // Top left image
+import metalAsset from "./assets/metal-asset.png"; // Bottom right image
 
 const App = () => {
   const [formData, setFormData] = useState({
@@ -111,9 +113,21 @@ const App = () => {
         </div>
       </div>
 
-      {/* Section 3: Empty Scroll */}
-      <div className="scroll-section" style={{ backgroundColor: "#444" }}></div>
+      {/* Section 3: "Some of your finds..." */}
+  <div className="scroll-section finds-section">
+  <h2 className="finds-title">Some of your finds...</h2>
 
+{/* Three Stacked Grey Boxes */}
+<div className="grey-boxes">
+  <div className="grey-box">Random Stuff 1</div>
+  <div className="grey-box">Random Stuff 2</div>
+  <div className="grey-box">Random Stuff 3</div>
+</div>
+
+{/* Top Left & Bottom Right Images */}
+<img src={image29} alt="Asset 29" className="finds-image top-left" />
+<img src={metalAsset} alt="Metal Asset" className="finds-image bottom-right" />
+</div>
 {/* NEW Section: Breaking It Down */}
 <div className="scroll-section breakdown-section">
   {/* Background Decorations */}
@@ -165,7 +179,6 @@ const App = () => {
     Go Back Home
   </button>
 </div>
-
 
 
       {/* Section 4: Backend Data Placeholder */}
