@@ -170,3 +170,50 @@ html, body {
   width: 150px;
   margin-top: 20px;
 }
+
+/* Spotted Section */
+.spotted-section {
+  position: relative;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Net Background Image */
+.net-bg {
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 40%;
+  opacity: 0.6;
+}
+
+/* Star Doodle Image */
+.star-doodle {
+  position: absolute;
+  right: 5%;
+  top: 40%;
+  width: 120px;
+}
+
+/* Spotted Box */
+.spotted-box {
+  background-color: #d9d9d9;
+  padding: 40px 60px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 500px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: relative;
+}
+
+/* Spotted Box Text */
+.spotted-box h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 10px 0;
+}
